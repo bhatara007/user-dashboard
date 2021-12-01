@@ -51,9 +51,9 @@ function App() {
       console.log("hosss")
   }
 
-  const clickHandle = (e) => {
-    e.preventDefault();
+  const clickHandle = () => {
     getHostpital()
+    console.log(card)
     setCard(!card)
   }
 
@@ -109,7 +109,7 @@ function App() {
                   <FaRegHospital className="text-7xl animate-spin"></FaRegHospital>
                   <button
                     className="text-1xl hover:scale-150"
-                    onClick={(e) => clickHandle(e)}
+                    onClick={() => clickHandle()}
                   >
                     Click me !!!!!!
                   </button>
