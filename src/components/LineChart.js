@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -43,7 +43,8 @@ const data = [
   
 ];
 
-const LineChartsusu = () => {
+const LineChartsusu = ({data}) => {
+
     return (
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
@@ -57,7 +58,7 @@ const LineChartsusu = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="ts" tick={{fontSize:10}}/>
           <YAxis domain={[20, 40]} tickCount={5} />
           <ReferenceLine y={37} stroke="red" strokeDasharray="3 3" />
           <Tooltip />
