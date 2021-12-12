@@ -16,6 +16,7 @@ function App() {
   const [current, setCurrent] = useState("");
   const [card, setCard] = useState(false);
   const [location, setLocation] = useState("");
+  const [humidity, setHumidity] = useState("");
   
 
 
@@ -25,7 +26,8 @@ function App() {
       const { data } = await axios.get(
         URL + "data/covid/current?name=urn"
       );
-      setCovid(data[0].covidcases);
+      console.log(data[0])
+      setCovid(data[0].new_case);
     };
   
   const getLocation = async () => {
@@ -48,21 +50,27 @@ function App() {
   const getHostpital = async () => {
       const { data } = await axios.get(URL + "data/hospital?name=urn");
       setHospital(data);
-      console.log("hosss")
+  }
+
+  const getHumanity = async () => {
+    const { data } = await axios.get(URL + "data/humidity/current?name=urn");
+    console.log(data)
+    setHumidity(data[0].humidity)
   }
 
   const clickHandle = () => {
     getHostpital()
+    console.log(card)
     setCard(!card)
   }
 
 
   useEffect(() => {
+    getHumanity();
     getAqi()
     getTemp()
     getCovid()
     getLocation()
-    getHostpital();
   }, [])
 
     useEffect(() => {
@@ -76,6 +84,7 @@ function App() {
       getTemp();
       getCovid();
       getLocation();
+      getHumanity();
     }, 2000);
 
     return () => clearInterval(intervalId); //This is important
@@ -100,11 +109,6 @@ function App() {
               <p className="mt-5 mb-5"> Current Location: {location}</p>
               {current > 36 ? (
                 <div className=" text-red-500 m-1 flex flex-col items-center animate-fast-bounce">
-                  {/* <img
-                    src="https://media.discordapp.net/attachments/913893455325978724/915602297772474458/unknown.png"
-                    className="rounded-full w-20 h-20 bg-cover cursor-pointer
-                    hover:scale-150"
-                  /> */}
                   <FaRegHospital className="text-7xl animate-spin"></FaRegHospital>
                   <button
                     className="text-1xl hover:scale-150"
@@ -116,6 +120,9 @@ function App() {
               ) : (
                 <div></div>
               )}
+              <div className="h-12">
+
+              </div>
             </div>
           </div>
           <div className="flex-1 ml-1 space-y-1">
@@ -134,6 +141,10 @@ function App() {
                   <p className="mt-1 text-2xl font-semibold"> {current} c </p>
                 </div>
               )}
+              <div className="w-36 h-full bg-white">
+                <p className="mt-1"> Humanity </p>
+                <p className="mt-1 text-2xl font-semibold"> {humidity} RH%</p>
+              </div>
               <div className="w-36 h-full bg-white">
                 <p className="mt-1"> AQI (PM 2.5) </p>
                 <p className="mt-1 text-2xl font-semibold"> {aqi} µg./m </p>
